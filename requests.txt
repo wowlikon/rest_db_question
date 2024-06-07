@@ -1,0 +1,44 @@
+Контракт на заведение записи
+
+request:
+
+urn: /address
+method: Post
+header: "Content-Type: application/json"
+body:
+{
+  name: string
+  address: string
+  longitude: number
+  latitude: number
+}
+
+response:
+status:200
+body: 
+{
+  id: number
+}
+
+
+Контракт для получения записи
+
+request: 
+
+urn: /address
+method: Get
+header: "Content-Type: application/json"
+body:
+{
+  id: number
+}
+
+response:
+status:200
+body:
+{
+  name: string
+  address: string
+  longitude: number
+  latitude: number
+}
