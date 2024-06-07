@@ -3,7 +3,6 @@ package main
 
 import (
 	"fmt"
-	"encoding/json"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -20,20 +19,25 @@ type Address struct {
 }
 
 type Query struct {
-	id json.Number `json: "id"`
+	id string `json: "id"`
 }
 
-func NewID() json.Number {
+func NewID() string {
 	id := rand.Int63()
-	return json.Number(strconv.FormatInt(id, 10))
+	return strconv.FormatInt(id, 10)
 }
+
+var addresses map[string]Address
 
 func main() {
-	addresses := make(map[json.Number]Address)
+	addresses = make(map[string]Address)
 	rand.Seed(time.Now().UnixNano())
 	fmt.Println(NewID())
 
 	r := gin.Default()
+	r.GET("/all", func(c *gin.Context) {
+		c.JSON(http.StatusOK, addresses)
+	})
 	r.POST("/address", func(c *gin.Context) {
 		var addr Address
 		id := NewID()
@@ -42,7 +46,7 @@ func main() {
 			return
 		}
 		addresses[id] = addr
-		c.JSON(http.StatusOK, Query{id})
+		c.JSON(http.StatusOK, gin.H{"id": id})
 	})
 	r.GET("/address", func(c *gin.Context) {
 		var q Query
