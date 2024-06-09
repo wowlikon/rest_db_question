@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -16,42 +17,86 @@ type Address struct {
 	Latitude  float64 `json:"latitude"`
 }
 
+const (
+	OK         = http.StatusOK
+	NotFound   = http.StatusNotFound
+	BadRequest = http.StatusBadRequest
+)
+
 func NewID() string {
 	id := rand.Int63()
 	return strconv.FormatInt(id, 10)
 }
 
 var addresses map[string]Address
+var logger *log.Logger
 
 func main() {
 	addresses = make(map[string]Address)
-	fmt.Println(NewID())
 
+	// Create a log file
+	logFile, err := os.OpenFile("server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer logFile.Close()
+
+	// Create a logger that logs to both the file and the console
+	logger = log.New(logFile, "", log.LstdFlags)
+	logger.Println("Starting server...")
 	r := gin.Default()
-	r.GET("/all", func(c *gin.Context) {
-		c.JSON(http.StatusOK, addresses)
-	})
+	r.Use(errorHandler)
 
 	r.POST("/address", func(c *gin.Context) {
-		var addr Address
-		id := NewID()
-		if err := c.Bind(&addr); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		id, err := CreateAddress(c)
+		if err != nil {
+			c.Error(err)
 			return
 		}
-		addresses[id] = addr
-		c.JSON(http.StatusOK, gin.H{"id": id})
+		c.JSON(OK, gin.H{"id": id})
 	})
 
 	r.GET("/address/:id", func(c *gin.Context) {
-		addr, ok := addresses[c.Param("id")]
+		id := c.Param("id")
+		addr, ok := GetAddressByID(id)
 		if !ok {
-			c.JSON(http.StatusNotFound, gin.H{"error": "not found"})
+			c.JSON(NotFound, gin.H{"error": "not found"})
 			return
 		}
-
-		c.JSON(http.StatusOK, addr)
+		c.JSON(OK, addr)
 	})
 
-	r.Run()
+	logger.Println("Server started successfully!")
+	r.Run(":80")
+}
+
+func CreateAddress(c *gin.Context) (string, error) {
+	var addr Address
+	var id string
+
+	if err := c.Bind(&addr); err != nil {
+		return "", err
+	}
+
+	for {
+		id := NewID()
+		if _, ok := addresses[id]; !ok {
+			break
+		}
+	}
+	addresses[id] = addr
+	return id, nil
+}
+
+func GetAddressByID(id string) (Address, bool) {
+	addr, ok := addresses[id]
+	return addr, ok
+}
+
+func errorHandler(c *gin.Context) {
+	c.Next()
+	if len(c.Errors) > 0 {
+		logger.Println("Error occurred:", c.Errors[0].Error())
+		c.JSON(BadRequest, gin.H{"error": c.Errors[0].Error()})
+	}
 }
