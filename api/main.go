@@ -27,6 +27,7 @@ const (
 	BadRequest = http.StatusBadRequest
 )
 
+// Добавление методов работы с базой данных
 func InitMethods(r *gin.Engine, a AddressAPI) {
 	r.POST("/address", func(c *gin.Context) {
 		id, err := CreateAddress(c, a)
@@ -48,11 +49,13 @@ func InitMethods(r *gin.Engine, a AddressAPI) {
 	})
 }
 
+// Генерация идентификатора
 func NewID() string {
 	id := rand.Int63()
 	return strconv.FormatInt(id, 10)
 }
 
+// Операция добавления записи в базу данных
 func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 	var addr Address
 	var id string
@@ -71,11 +74,13 @@ func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 	return id, nil
 }
 
+// Операция получения записи из базы данных
 func GetAddressByID(id string, a AddressAPI) (Address, bool) {
 	addr, ok := a.Addresses[id]
 	return addr, ok
 }
 
+// Middleware для логирования ошибок
 func NewErrorHandler(a AddressAPI) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		c.Next()

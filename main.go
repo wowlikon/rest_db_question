@@ -11,18 +11,18 @@ import (
 var a api.AddressAPI
 
 func main() {
-	a.Addresses = make(map[string]api.Address)
-
-	// Create a log file
+	// Создание файла для логов
 	logFile, err := os.OpenFile("server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	// Create a logger that logs to both the file and the console
+	// Подготовка AddressAPI. Создание логгерп
 	logger := log.New(logFile, "", log.LstdFlags)
+	a.Addresses = make(map[string]api.Address)
 	a.Logger = logger
 
+	// Инициализвция gin сервера
 	logger.Println("Starting server...")
 	r := gin.Default()
 
@@ -30,7 +30,7 @@ func main() {
 	api.InitMethods(r, a)
 
 	logger.Println("Server started successfully!")
-	r.Run(":80")
+	r.Run(":80") // Запуск сервера на http://localhost:80
 
 	defer logFile.Close()
 }
