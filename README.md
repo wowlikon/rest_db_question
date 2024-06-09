@@ -3,18 +3,18 @@
 
 ### Установка
 1. Скопировать репозиторий
-```bash
+```shell
 git clone github.com/wowlikon/rest_db_question
 cd rest_db_question
 ```
 
 2. Установить зависимости
-```bash
+```shell
 go mod tidy
 ```
 
 3. Запуск
-```bash
+```shell
 go build && rest_db_question
 ```
 
@@ -22,7 +22,7 @@ go build && rest_db_question
 
 #### POST `/address`
 Позволяет отправить данные на сервер
-```bash
+```shell
 curl -X POST --json '{"name": "alex", "address": "home", "longitude": 123, "latitude": 456}' http://localhost:8080/address
 
 {"id": 1234567890}
@@ -30,7 +30,7 @@ curl -X POST --json '{"name": "alex", "address": "home", "longitude": 123, "lati
 
 #### GET `/address/:id`
 Позволяет получить данные по id
-```bash
+```shell
 curl -X GET http://localhost:8080/address/1234567890
 
 {"name": "alex", "address": "home", "longitude": 123, "latitude": 456}
