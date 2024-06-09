@@ -1,4 +1,4 @@
-module github.com/wowlikon/go_db_api
+module github.com/wowlikon/rest_db_question
 
 go 1.22.3
 
