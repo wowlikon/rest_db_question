@@ -11,7 +11,7 @@ import (
 var a api.AddressAPI
 
 func main() {
-	a.addresses = make(map[string]api.Address)
+	a.Addresses = make(map[string]api.Address)
 
 	// Create a log file
 	logFile, err := os.OpenFile("server.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
@@ -21,13 +21,13 @@ func main() {
 
 	// Create a logger that logs to both the file and the console
 	logger := log.New(logFile, "", log.LstdFlags)
-	a.logger = logger
+	a.Logger = logger
 
 	logger.Println("Starting server...")
 	r := gin.Default()
 
 	r.Use(api.NewErrorHandler(a))
-	api.InitMethods(r)
+	api.InitMethods(r, a)
 
 	logger.Println("Server started successfully!")
 	r.Run(":80")

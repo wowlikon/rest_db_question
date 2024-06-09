@@ -17,8 +17,8 @@ type Address struct {
 }
 
 type AddressAPI struct {
-	addresses map[string]Address
-	logger    *log.Logger
+	Addresses map[string]Address
+	Logger    *log.Logger
 }
 
 const (
@@ -63,16 +63,16 @@ func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 
 	for {
 		id = NewID()
-		if _, ok := a.addresses[id]; !ok {
+		if _, ok := a.Addresses[id]; !ok {
 			break
 		}
 	}
-	a.addresses[id] = addr
+	a.Addresses[id] = addr
 	return id, nil
 }
 
 func GetAddressByID(id string, a AddressAPI) (Address, bool) {
-	addr, ok := a.addresses[id]
+	addr, ok := a.Addresses[id]
 	return addr, ok
 }
 
@@ -80,7 +80,7 @@ func NewErrorHandler(a AddressAPI) func(c *gin.Context) {
 	return func(c *gin.Context) {
 		c.Next()
 		if len(c.Errors) > 0 {
-			a.logger.Println("Error occurred:", c.Errors[0].Error())
+			a.Logger.Println("Error occurred:", c.Errors[0].Error())
 			c.JSON(BadRequest, gin.H{"error": c.Errors[0].Error()})
 		}
 	}
