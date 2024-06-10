@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/wneessen/go-mail"
@@ -66,9 +67,18 @@ func InitMethods(r *gin.Engine, a AddressAPI) {
 }
 
 // Генерация идентификатора
-func NewID() string {
-	id := rand.Int63()
-	return strconv.FormatInt(id, 10)
+func NewID(obj map[string]Address) string {
+	var id int64
+	result := ""
+
+	for {
+		id = rand.Int63()
+		result = strconv.FormatInt(id, 10)
+		if _, ok := obj[result]; !ok {
+			break
+		}
+	}
+	return result
 }
 
 // Операция добавления записи в базу данных
@@ -80,34 +90,12 @@ func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 		return "", err
 	}
 
-	for {
-		id = NewID()
-		if _, ok := a.Addresses[id]; !ok {
-			break
-		}
-	}
-
+	id = NewID(a.Addresses)
 	if strings.HasPrefix(addr.Name, "Москва") {
+		msgText := fmt.Sprintf(EmailInfo, addr.Name, addr)
+		a.Logger.Print(msgText)
+		send(a, msgText)
 
-		// Создание сообщения
-		m := mail.NewMsg()
-		if err := m.From(a.BotMail); err != nil {
-			a.Logger.Fatalf("failed to set From address: %s", err)
-		}
-		if err := m.To(a.AdminMail); err != nil {
-			a.Logger.Fatalf("failed to set To address: %s", err)
-		}
-		m.Subject("Замена name в API сервера")
-		m.SetBodyString(
-			mail.TypeTextPlain,
-			fmt.Sprintf("Replaced \"%s\" to \"БЮ711\" in %v\n", addr.Name, addr),
-		)
-
-		// Отправка сообщения
-		if err := a.Mail.DialAndSend(m); err != nil {
-			a.Logger.Fatalf("failed to send mail: %s", err)
-		}
-		a.Logger.Printf("Replaced \"%s\" to \"БЮ711\" in %v\n", addr.Name, addr)
 		addr.Name = "БЮ711"
 	}
 
@@ -136,7 +124,12 @@ func GetAddressByName(name string, a AddressAPI) ([]Address, bool) {
 // Middleware для логирования ошибок
 func NewErrorHandler(a AddressAPI) func(c *gin.Context) {
 	return func(c *gin.Context) {
+		a.Logger.Print(c.ClientIP(), c.Request.Method, c.Request.URL, "")
+
+		start := time.Now()
 		c.Next()
+		a.Logger.Println(time.Since(start))
+
 		if len(c.Errors) > 0 {
 			a.Logger.Println("Error occurred:", c.Errors[0].Error())
 			c.JSON(BadRequest, gin.H{"error": c.Errors[0].Error()})
