@@ -69,6 +69,8 @@ github.com/wneessen/go-mail v0.4.1 h1:m2rSg/sc8FZQCdtrV5M8ymHYOFrC6KJAQAIcgrXvqo
 github.com/wneessen/go-mail v0.4.1/go.mod h1:zxOlafWCP/r6FEhAaRgH4IC1vg2YXxO0Nar9u0IScZ8=
 github.com/wowlikon/rest_db_question/api v0.0.0-20240609104641-019b1089c5d9 h1:o5nzauj4Me4owaAURdvTDxjce8OXv5InA940JaPzkNU=
 github.com/wowlikon/rest_db_question/api v0.0.0-20240609104641-019b1089c5d9/go.mod h1:kT6RvkM7FGZrSFDKgkVqrshLl1WPpT2bqytEmhXFbQ8=
+github.com/wowlikon/rest_db_question/api v0.0.0-20240609111554-e7d3ec30130d h1:TeDfYY9NO9p3Sh9rmTpvNMEimXUgVODXZrwExWTo7fs=
+github.com/wowlikon/rest_db_question/api v0.0.0-20240609111554-e7d3ec30130d/go.mod h1:kT6RvkM7FGZrSFDKgkVqrshLl1WPpT2bqytEmhXFbQ8=
 golang.org/x/arch v0.0.0-20210923205945-b76863e36670/go.mod h1:5om86z9Hs0C8fWVUuoMHwpExlXzs5Tkyp9hOrfG7pp8=
 golang.org/x/arch v0.8.0 h1:3wRIsP3pM4yUptoR96otTUOXI367OS0+c9eeRi9doIc=
 golang.org/x/arch v0.8.0/go.mod h1:FEVrYAQjsQXMVJ1nsMoVVXPZg6p2JE2mx8psSWTDQys=

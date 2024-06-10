@@ -30,7 +30,7 @@ func main() {
 	a.Logger = logger
 
 	// Создание mail клиента
-	a.Mail, err := mail.NewClient("smtp.mail.ru",
+	a.Mail, err = mail.NewClient("smtp.mail.ru",
 		mail.WithPort(25), mail.WithSMTPAuth(mail.SMTPAuthPlain),
 		mail.WithUsername(os.Getenv("bot_email")), mail.WithPassword(os.Getenv("bot_password")))
 	if err != nil {
