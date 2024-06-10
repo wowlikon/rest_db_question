@@ -13,6 +13,13 @@ cd rest_db_question
 go mod tidy
 ```
 
+2. Создать `.env`
+```properties
+admin_email=admin@gmail.com
+bot_email=server_bot@mail.ru
+bot_password=bot_password123
+```
+
 3. Запуск
 ```shell
 go build && rest_db_question
