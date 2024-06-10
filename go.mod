@@ -4,6 +4,8 @@ go 1.22.3
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/joho/godotenv v1.5.1
+	github.com/wneessen/go-mail v0.4.1
 	github.com/wowlikon/rest_db_question/api v0.0.0-20240609104641-019b1089c5d9
 )
 

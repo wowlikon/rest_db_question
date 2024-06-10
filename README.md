@@ -28,10 +28,18 @@ curl -X POST --json '{"name": "alex", "address": "home", "longitude": 123, "lati
 {"id": 1234567890}
 ```
 
-#### GET `/address/:id`
+#### GET `/address/id/:id`
 Позволяет получить данные по id
 ```shell
 curl -X GET http://localhost:8080/address/1234567890
+
+{"name": "alex", "address": "home", "longitude": 123, "latitude": 456}
+```
+
+#### GET `/address/name/:name`
+Позволяет получить данные по name
+```shell
+curl -X GET http://localhost:8080/address/alex
 
 {"name": "alex", "address": "home", "longitude": 123, "latitude": 456}
 ```
