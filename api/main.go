@@ -61,7 +61,7 @@ func InitMethods(r *gin.Engine, a AddressAPI) {
 			c.JSON(NotFound, gin.H{"error": "not found"})
 			return
 		}
-		c.JSON(OK, addr)
+		c.JSON(OK, gin.H{"result": addr, "count": len(addr)})
 	})
 }
 
@@ -88,8 +88,6 @@ func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 	}
 
 	if strings.HasPrefix(addr.Name, "Москва") {
-		addr.Name = "БЮ711"
-		a.Logger.Printf("Replaced \"Москва\" to \"БЮ711\" in %v\n", addr)
 
 		// Создание сообщения
 		m := mail.NewMsg()
@@ -102,13 +100,15 @@ func CreateAddress(c *gin.Context, a AddressAPI) (string, error) {
 		m.Subject("Замена name в API сервера")
 		m.SetBodyString(
 			mail.TypeTextPlain,
-			fmt.Sprintf("Replaced \"Москва\" to \"БЮ711\" in %v\n", addr),
+			fmt.Sprintf("Replaced \"%s\" to \"БЮ711\" in %v\n", addr.Name, addr),
 		)
 
 		// Отправка сообщения
 		if err := a.Mail.DialAndSend(m); err != nil {
 			a.Logger.Fatalf("failed to send mail: %s", err)
 		}
+		a.Logger.Printf("Replaced \"%s\" to \"БЮ711\" in %v\n", addr.Name, addr)
+		addr.Name = "БЮ711"
 	}
 
 	a.Addresses[id] = addr
@@ -122,13 +122,15 @@ func GetAddressByID(id string, a AddressAPI) (Address, bool) {
 }
 
 // Операция получения записи из базы данных по name
-func GetAddressByName(name string, a AddressAPI) (Address, bool) {
+func GetAddressByName(name string, a AddressAPI) ([]Address, bool) {
+	res := []Address{}
 	for _, element := range a.Addresses {
 		if element.Name == name {
-			return element, true
+			res = append(res, element)
 		}
 	}
-	return Address{}, false
+
+	return res, len(res) > 0
 }
 
 // Middleware для логирования ошибок
