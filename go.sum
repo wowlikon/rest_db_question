@@ -33,8 +33,6 @@ github.com/joho/godotenv v1.5.1/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwA
 github.com/json-iterator/go v1.1.12 h1:PV8peI4a0ysnczrg+LtxykD8LfKY9ML6u2jnxaEnrnM=
 github.com/json-iterator/go v1.1.12/go.mod h1:e30LSqwooZae/UwlEbR2852Gd8hjQvJoHmT4TnhNGBo=
 github.com/klauspost/cpuid/v2 v2.0.9/go.mod h1:FInQzS24/EEf25PyTYn52gqo7WaD8xa0213Md/qVLRg=
-github.com/klauspost/cpuid/v2 v2.2.7 h1:ZWSB3igEs+d0qvnxR/ZBzXVmxkgt8DdzP6m9pfuVLDM=
-github.com/klauspost/cpuid/v2 v2.2.7/go.mod h1:Lcz8mBdAVJIBVzewtcLocK12l3Y+JytZYpaMropDUws=
 github.com/klauspost/cpuid/v2 v2.2.8 h1:+StwCXwm9PdpiEkPyzBXIy+M9KUb4ODm0Zarf1kS5BM=
 github.com/klauspost/cpuid/v2 v2.2.8/go.mod h1:Lcz8mBdAVJIBVzewtcLocK12l3Y+JytZYpaMropDUws=
 github.com/knz/go-libedit v1.10.1/go.mod h1:MZTVkCWyz0oBc7JOWP3wNAzd002ZbM/5hgShxwh4x8M=
@@ -69,8 +67,6 @@ github.com/ugorji/go/codec v1.2.12 h1:9LC83zGrHhuUA9l16C9AHXAqEV/2wBQ4nkvumAE65E
 github.com/ugorji/go/codec v1.2.12/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZgYf6w6lg=
 github.com/wneessen/go-mail v0.4.1 h1:m2rSg/sc8FZQCdtrV5M8ymHYOFrC6KJAQAIcgrXvqoo=
 github.com/wneessen/go-mail v0.4.1/go.mod h1:zxOlafWCP/r6FEhAaRgH4IC1vg2YXxO0Nar9u0IScZ8=
-github.com/wowlikon/rest_db_question/api v0.0.0-20240609111554-e7d3ec30130d h1:TeDfYY9NO9p3Sh9rmTpvNMEimXUgVODXZrwExWTo7fs=
-github.com/wowlikon/rest_db_question/api v0.0.0-20240609111554-e7d3ec30130d/go.mod h1:kT6RvkM7FGZrSFDKgkVqrshLl1WPpT2bqytEmhXFbQ8=
 github.com/wowlikon/rest_db_question/api v0.0.0-20240610121324-a2424da3e06b h1:RQwCsIDk34/CFEK9LqELaE+Z1/Vh74l+OZPiUUS8xrk=
 github.com/wowlikon/rest_db_question/api v0.0.0-20240610121324-a2424da3e06b/go.mod h1:U7TxWKzgM4GGQFyiFqbcaUA8xLgmWB+Gk2mWAA7BuRs=
 golang.org/x/arch v0.0.0-20210923205945-b76863e36670/go.mod h1:5om86z9Hs0C8fWVUuoMHwpExlXzs5Tkyp9hOrfG7pp8=
